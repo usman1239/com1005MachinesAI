@@ -91,13 +91,13 @@ public abstract class Search {
 
 	private void vetSuccessors() {
 
-		ArrayList<SearchNode> vslis = new ArrayList();
+		ArrayList<SearchNode> vslis = new ArrayList<>();
 
 		for (SearchNode snode : successorNodes) {
 			if (!(onClosed(snode)) && !(onOpen(snode)))
 				vslis.add(snode);
 		}
-		;
+		
 		successorNodes = vslis;
 	}
 
