@@ -29,7 +29,7 @@ public class EPuzzleState extends SearchState{
     }
     
     @Override
-    ArrayList<SearchState> getSuccessors(Search searcher) {
+    ArrayList<SearchState> getSuccessors(Search searcher) {        
         ArrayList<EPuzzleState> eslis = new ArrayList<>();
         ArrayList<SearchState> slis = new ArrayList<>();
         int[] emptyCoordinates = empty(currentState);
@@ -65,7 +65,16 @@ public class EPuzzleState extends SearchState{
     @Override
     boolean sameState(SearchState n2) {
         EPuzzleState es2 = (EPuzzleState) n2;
-        return currentState == es2.getCurrentState();
+        int[][] es2CurrentState = es2.getCurrentState();
+        
+        for (int x = 0; x < es2CurrentState.length; x++){
+            for (int y = 0; y < es2CurrentState[x].length; y++){
+                if (currentState[x][y] != es2CurrentState[x][y]){
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     @Override
