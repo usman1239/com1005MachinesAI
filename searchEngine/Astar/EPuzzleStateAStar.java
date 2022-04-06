@@ -33,7 +33,6 @@ public class EPuzzleStateAStar extends SearchState{
     ArrayList<SearchState> getSuccessors(Search searcher) {
         EPuzzleSearchAStar esearcher = (EPuzzleSearchAStar) searcher;
         target = esearcher.getTarget();
-
         ArrayList<EPuzzleStateAStar> eslis = new ArrayList<>();
         ArrayList<SearchState> slis = new ArrayList<>();
         int[] emptyCoordinates = empty(currentState);
@@ -61,6 +60,7 @@ public class EPuzzleStateAStar extends SearchState{
         for (EPuzzleStateAStar p : eslis) {
             if (p != null) {
                 slis.add((SearchState) p);
+                printNice(p.getCurrentState());
             }
         }
         return slis;
@@ -87,7 +87,6 @@ public class EPuzzleStateAStar extends SearchState{
                 out += currentState[x][y];
             }
         }
-        ;
         return "Puzzle : " + out;
     }
 
@@ -115,9 +114,7 @@ public class EPuzzleStateAStar extends SearchState{
             int zero = sCopy[emptyOnes[1]][emptyOnes[0]];
             sCopy[emptyOnes[1]][emptyOnes[0]] = sCopy[emptyOnes[1]][emptyOnes[0] + 1];
             sCopy[emptyOnes[1]][emptyOnes[0] + 1] = zero;
-            System.out.println(sCopy.toString());
             estRemCost = hamming(sCopy, target);
-            System.out.println("Hamming for LEFt is: " + estRemCost);
         }
         
         return new EPuzzleStateAStar(sCopy, 1, estRemCost);
@@ -126,7 +123,6 @@ public class EPuzzleStateAStar extends SearchState{
     public EPuzzleStateAStar rightMove(int[][] s, int[] emptyOnes) {
         int[][] sCopy = new int[s.length][s[0].length];
         if (emptyOnes[0] == 0) {
-            // System.out.println("rejected right move");
             return null;
         } else {
             for (int i = 0; i < s.length; i++) {
@@ -135,21 +131,14 @@ public class EPuzzleStateAStar extends SearchState{
             int zero = sCopy[emptyOnes[1]][emptyOnes[0]];
             sCopy[emptyOnes[1]][emptyOnes[0]] = sCopy[emptyOnes[1]][emptyOnes[0] - 1];
             sCopy[emptyOnes[1]][emptyOnes[0] - 1] = zero;
-            System.out.println(sCopy.toString());
             estRemCost = hamming(sCopy, target);
-            System.out.println("hahaRight" + estRemCost);
-
         }
         return new EPuzzleStateAStar(sCopy, 1, estRemCost);
-        // return new EPuzzleStateAStar(sCopy, this.getLocalCost(), this.getestRemCost());
-
-        // return new EPuzzleStateAStar(sCopy);
     }
 
     public EPuzzleStateAStar upMove(int[][] s, int[] emptyOnes) {
         int[][] sCopy = new int[s.length][s[0].length];
         if (emptyOnes[1] == 2) {
-            // System.out.println("rejected up move");
             return null;
         } else {
             for (int i = 0; i < s.length; i++) {
@@ -158,20 +147,14 @@ public class EPuzzleStateAStar extends SearchState{
             int zero = sCopy[emptyOnes[1]][emptyOnes[0]];
             sCopy[emptyOnes[1]][emptyOnes[0]] = sCopy[emptyOnes[1] + 1][emptyOnes[0]];
             sCopy[emptyOnes[1] + 1][emptyOnes[0]] = zero;
-            System.out.println(sCopy.toString());
             estRemCost = hamming(sCopy, target);
-            System.out.println("HAMMING UP: " + estRemCost);
         }
         return new EPuzzleStateAStar(sCopy, 1, estRemCost);
-        // return new EPuzzleStateAStar(sCopy, this.getLocalCost(), this.getestRemCost());
-
-        // return new EPuzzleStateAStar(sCopy);
     }
 
     public EPuzzleStateAStar downMove(int[][] s, int[] emptyOnes) {
         int[][] sCopy = new int[s.length][s[0].length];
         if (emptyOnes[1] == 0) {
-            // System.out.println("rejected down move");
             return null;
         } else {
             for (int i = 0; i < s.length; i++) {
@@ -180,15 +163,9 @@ public class EPuzzleStateAStar extends SearchState{
             int zero = sCopy[emptyOnes[1]][emptyOnes[0]];
             sCopy[emptyOnes[1]][emptyOnes[0]] = sCopy[emptyOnes[1] - 1][emptyOnes[0]];
             sCopy[emptyOnes[1] - 1][emptyOnes[0]] = zero;
-            System.out.println(sCopy.toString());
             estRemCost = hamming(sCopy, target);
-            System.out.println("HAMMING DOWN: " + estRemCost);
-
         }
         return new EPuzzleStateAStar(sCopy, 1, estRemCost);
-        // return new EPuzzleStateAStar(sCopy, this.getLocalCost(), this.getestRemCost());
-
-        // return new EPuzzleStateAStar(sCopy);
     }
 
     public int hamming(int[][] src, int[][] t) {
@@ -201,5 +178,14 @@ public class EPuzzleStateAStar extends SearchState{
             }
         }
         return numOutOfPlace;
+    }
+
+    public void printNice(int[][] z){
+        for (int x = 0; x < z.length; x++){
+            for (int y = 0; y < z[x].length; y++){
+                System.out.print(z[x][y] + " | ");
+            }
+            System.out.println();
+        }
     }
 }
