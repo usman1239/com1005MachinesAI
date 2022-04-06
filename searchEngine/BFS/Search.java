@@ -1,4 +1,3 @@
-
 /**
 *	Search.java -
 *   abstract class specialising to JugsSearch etc

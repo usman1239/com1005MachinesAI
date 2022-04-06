@@ -25,7 +25,10 @@ public class SearchNode {
     state = (SearchState) s;
   }
 
-  /**
+  public SearchNode(SearchState initState, int i, int j) {
+}
+
+/**
    * accessor for state
    */
   public SearchState getState() {

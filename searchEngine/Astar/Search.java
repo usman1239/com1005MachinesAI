@@ -23,7 +23,7 @@ public abstract class Search {
   * @param strat - String specifying strategy
   * @return indication of success or failure
   */
-  public  String runSearch (SearchState initState, String strat) {
+  public String runSearch (SearchState initState, String strat) {
 
     initNode = new SearchNode(initState,0,0); // create initial node
     initNode.setGlobalCost(0); //change from search2

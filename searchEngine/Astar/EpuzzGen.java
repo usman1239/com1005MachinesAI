@@ -6,7 +6,6 @@
  * Phil Green 2017
  * Heidi Christensen 2022 (heidi.christensen@sheffield.ac.uk)
 */
-
 import java.util.Random;
 
 public class EpuzzGen {
@@ -37,7 +36,6 @@ public class EpuzzGen {
       if (this.impossible(puzz, diff)) {
          puzz = this.puzzGen(diff);
       }
-
       return puzz;
    }
 

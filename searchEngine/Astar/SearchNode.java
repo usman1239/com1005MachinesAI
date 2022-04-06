@@ -12,7 +12,7 @@
 
 import java.util.*;
 
-public  class SearchNode {
+public class SearchNode {
 
   private SearchState state;
 
@@ -168,6 +168,4 @@ public  class SearchNode {
       parent_state=parent.get_State().toString();
     return "\n++++++node+++++\nstate "+state.toString()+"\nparent "+parent_state+" lc "+localCost+" gc "+globalCost+" erc "+estRemCost+" etc "+estTotalCost+"\n++++end node++++";
   }
-
-
 }
