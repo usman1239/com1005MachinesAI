@@ -7,7 +7,6 @@
  * Heidi Christensen 2022 (heidi.christensen@sheffield.ac.uk)
 */
 import java.util.Random;
-
 public class EpuzzGen {
    int[][] tar = new int[][]{{1, 2, 3}, {4, 5, 6}, {7, 8, 0}};
    Random gen;
@@ -93,7 +92,6 @@ public class EpuzzGen {
             }
          }
       }
-
       return d;
    }
 }
