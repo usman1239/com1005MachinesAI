@@ -120,6 +120,7 @@ public class EPuzzleStateAStar extends SearchState{
             toReturn[emptyOnes[1]][emptyOnes[0] + 1] = zero;
             // estRemCost = hamming(toReturn, target);
             estRemCost = manhattan(toReturn, target);
+            System.out.println("benz" + estRemCost);
             return new EPuzzleStateAStar(toReturn, 1, estRemCost);
         }
         
@@ -135,6 +136,7 @@ public class EPuzzleStateAStar extends SearchState{
             toReturn[emptyOnes[1]][emptyOnes[0] - 1] = zero;
             // estRemCost = hamming(toReturn, target);
             estRemCost = manhattan(toReturn, target);
+            System.out.println("benz" + estRemCost);
             return new EPuzzleStateAStar(toReturn, 1, estRemCost);
         }
     }
@@ -149,11 +151,11 @@ public class EPuzzleStateAStar extends SearchState{
             toReturn[emptyOnes[1] + 1][emptyOnes[0]] = zero;
             // estRemCost = hamming(toReturn, target);
             estRemCost = manhattan(toReturn, target);
+            System.out.println("benz" + estRemCost);
             return new EPuzzleStateAStar(toReturn, 1, estRemCost);
         }
     }
 
-    
     private EPuzzleStateAStar downMove(int[][] s, int[] emptyOnes) {
         if (emptyOnes[1] == 0) {
             return null;
@@ -164,6 +166,7 @@ public class EPuzzleStateAStar extends SearchState{
             toReturn[emptyOnes[1] - 1][emptyOnes[0]] = zero;
             // estRemCost = hamming(toReturn, target);
             estRemCost = manhattan(toReturn, target);
+            System.out.println("benz" + estRemCost);
             return new EPuzzleStateAStar(toReturn, 1, estRemCost);
         }
     }
@@ -190,14 +193,17 @@ public class EPuzzleStateAStar extends SearchState{
         int ti = 0;
         int tj = 0;
 
-        for (int x = 0; x < 9 ; x++) {
+        for (int x = 1; x < 9 ; x++) {
             int i;
             int j;
             for (i = 0; i < 3; i++) {
                 for (j = 0; j < 3; j++) {
                     if (s[i][j] == x) {
+                        System.out.println("x : " + s[i][j]);
                         si = i;
                         sj = j;
+                        System.out.println("si: " + si);
+                        System.out.println("sJJ: " + sj);
                     }
                 }
             }
