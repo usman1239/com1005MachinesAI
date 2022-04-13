@@ -60,7 +60,6 @@ public class EPuzzleStateAStar extends SearchState{
         for (EPuzzleStateAStar p : eslis) {
             if (p != null) {
                 slis.add((SearchState) p);
-                printNice(p.getCurrentState());
             }
         }
         return slis;
@@ -89,7 +88,15 @@ public class EPuzzleStateAStar extends SearchState{
         }
         return "Puzzle : " + out;
     }
-
+    
+    private int[][] duplicatedArray(int[][] s){
+        int[][] sCopy = new int[s.length][s[0].length];
+        for (int i = 0; i < s.length; i++) {
+            System.arraycopy(s[i], 0, sCopy[i], 0, s[i].length);
+        }
+        return sCopy;
+    }
+    
     private int[] empty(int[][] c) {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
@@ -104,80 +111,70 @@ public class EPuzzleStateAStar extends SearchState{
     }
 
     private EPuzzleStateAStar leftMove(int[][] s, int[] emptyOnes) {
-        int[][] sCopy = new int[s.length][s[0].length];
         if (emptyOnes[0] == 2) {
             return null;
         } else {
-            for (int i = 0; i < s.length; i++) {
-                System.arraycopy(s[i], 0, sCopy[i], 0, s[i].length);
-            }
-            int zero = sCopy[emptyOnes[1]][emptyOnes[0]];
-            sCopy[emptyOnes[1]][emptyOnes[0]] = sCopy[emptyOnes[1]][emptyOnes[0] + 1];
-            sCopy[emptyOnes[1]][emptyOnes[0] + 1] = zero;
-            // estRemCost = hamming(sCopy, target);
-            estRemCost = manhattan(sCopy, target);
+            int[][] toReturn = duplicatedArray(s);
+            int zero = toReturn[emptyOnes[1]][emptyOnes[0]];
+            toReturn[emptyOnes[1]][emptyOnes[0]] = toReturn[emptyOnes[1]][emptyOnes[0] + 1];
+            toReturn[emptyOnes[1]][emptyOnes[0] + 1] = zero;
+            // estRemCost = hamming(toReturn, target);
+            estRemCost = manhattan(toReturn, target);
+            return new EPuzzleStateAStar(toReturn, 1, estRemCost);
         }
         
-        return new EPuzzleStateAStar(sCopy, 1, estRemCost);
     }
 
     private EPuzzleStateAStar rightMove(int[][] s, int[] emptyOnes) {
-        int[][] sCopy = new int[s.length][s[0].length];
         if (emptyOnes[0] == 0) {
             return null;
         } else {
-            for (int i = 0; i < s.length; i++) {
-                System.arraycopy(s[i], 0, sCopy[i], 0, s[i].length);
-            }
-            int zero = sCopy[emptyOnes[1]][emptyOnes[0]];
-            sCopy[emptyOnes[1]][emptyOnes[0]] = sCopy[emptyOnes[1]][emptyOnes[0] - 1];
-            sCopy[emptyOnes[1]][emptyOnes[0] - 1] = zero;
-            // estRemCost = hamming(sCopy, target);
-            estRemCost = manhattan(sCopy, target);
+            int[][] toReturn = duplicatedArray(s);
+            int zero = toReturn[emptyOnes[1]][emptyOnes[0]];
+            toReturn[emptyOnes[1]][emptyOnes[0]] = toReturn[emptyOnes[1]][emptyOnes[0] - 1];
+            toReturn[emptyOnes[1]][emptyOnes[0] - 1] = zero;
+            // estRemCost = hamming(toReturn, target);
+            estRemCost = manhattan(toReturn, target);
+            return new EPuzzleStateAStar(toReturn, 1, estRemCost);
         }
-        return new EPuzzleStateAStar(sCopy, 1, estRemCost);
     }
 
     private EPuzzleStateAStar upMove(int[][] s, int[] emptyOnes) {
-        int[][] sCopy = new int[s.length][s[0].length];
         if (emptyOnes[1] == 2) {
             return null;
         } else {
-            for (int i = 0; i < s.length; i++) {
-                System.arraycopy(s[i], 0, sCopy[i], 0, s[i].length);
-            }
-            int zero = sCopy[emptyOnes[1]][emptyOnes[0]];
-            sCopy[emptyOnes[1]][emptyOnes[0]] = sCopy[emptyOnes[1] + 1][emptyOnes[0]];
-            sCopy[emptyOnes[1] + 1][emptyOnes[0]] = zero;
-            // estRemCost = hamming(sCopy, target);
-            estRemCost = manhattan(sCopy, target);
+            int[][] toReturn = duplicatedArray(s);
+            int zero = toReturn[emptyOnes[1]][emptyOnes[0]];
+            toReturn[emptyOnes[1]][emptyOnes[0]] = toReturn[emptyOnes[1] + 1][emptyOnes[0]];
+            toReturn[emptyOnes[1] + 1][emptyOnes[0]] = zero;
+            // estRemCost = hamming(toReturn, target);
+            estRemCost = manhattan(toReturn, target);
+            return new EPuzzleStateAStar(toReturn, 1, estRemCost);
         }
-        return new EPuzzleStateAStar(sCopy, 1, estRemCost);
     }
 
+    
     private EPuzzleStateAStar downMove(int[][] s, int[] emptyOnes) {
-        int[][] sCopy = new int[s.length][s[0].length];
         if (emptyOnes[1] == 0) {
             return null;
         } else {
-            for (int i = 0; i < s.length; i++) {
-                System.arraycopy(s[i], 0, sCopy[i], 0, s[i].length);
-            }
-            int zero = sCopy[emptyOnes[1]][emptyOnes[0]];
-            sCopy[emptyOnes[1]][emptyOnes[0]] = sCopy[emptyOnes[1] - 1][emptyOnes[0]];
-            sCopy[emptyOnes[1] - 1][emptyOnes[0]] = zero;
-            // estRemCost = hamming(sCopy, target);
-            estRemCost = manhattan(sCopy, target);
-            
+            int[][] toReturn = duplicatedArray(s);
+            int zero = toReturn[emptyOnes[1]][emptyOnes[0]];
+            toReturn[emptyOnes[1]][emptyOnes[0]] = toReturn[emptyOnes[1] - 1][emptyOnes[0]];
+            toReturn[emptyOnes[1] - 1][emptyOnes[0]] = zero;
+            // estRemCost = hamming(toReturn, target);
+            estRemCost = manhattan(toReturn, target);
+            return new EPuzzleStateAStar(toReturn, 1, estRemCost);
         }
-        return new EPuzzleStateAStar(sCopy, 1, estRemCost);
     }
 
     private int hamming(int[][] src, int[][] t) {
         int numOutOfPlace = 0;
+        printNice(src);
         for (int x = 0; x < src.length; x++) {
             for (int y = 0; y < src[x].length; y++) {
                 if (src[x][y] != t[x][y] && src[x][y]!=0) {
+                    System.out.println(src[x][y] + " is out of place");
                     numOutOfPlace++;
                 }
             }
@@ -185,40 +182,45 @@ public class EPuzzleStateAStar extends SearchState{
         return numOutOfPlace;
     }
 
-    private void printNice(int[][] z){
-        for (int x = 0; x < z.length; x++){
-            for (int y = 0; y < z[x].length; y++){
-                System.out.print(z[x][y] + " | ");
-            }
-            System.out.println();
-        }
-    }
-
     private int manhattan(int[][] s, int[][] t) {
-        int d = 0;
+        printNice(s);
+        int totalManhattan = 0;
         int si = 0;
         int sj = 0;
+        int ti = 0;
+        int tj = 0;
 
-        for (int n = 0; n <= 8; ++n) {
+        for (int x = 0; x < 9 ; x++) {
             int i;
             int j;
-            for (i = 0; i <= 2; ++i) {
-                for (j = 0; j <= 2; ++j) {
-                    if (s[i][j] == n) {
+            for (i = 0; i < 3; i++) {
+                for (j = 0; j < 3; j++) {
+                    if (s[i][j] == x) {
                         si = i;
                         sj = j;
                     }
                 }
             }
 
-            for (i = 0; i <= 2; ++i) {
-                for (j = 0; j <= 2; ++j) {
-                    if (t[i][j] == n) {
-                        d = d + Math.abs(i - si) + Math.abs(j - sj);
+            for (i = 0; i < 3; i++) {
+                for (j = 0; j < 3;j++) {
+                    if (t[i][j] == x) {
+                        ti = Math.abs(i-si);
+                        tj = Math.abs(j-sj);
+                        totalManhattan += ti + tj;
                     }
                 }
             }
         }
-        return d;
+        return totalManhattan;
+    }
+
+    private void printNice(int[][] z) {
+        for (int x = 0; x < z.length; x++) {
+            for (int y = 0; y < z[x].length; y++) {
+                System.out.print(z[x][y] + " | ");
+            }
+            System.out.println();
+        }
     }
 }

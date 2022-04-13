@@ -45,7 +45,7 @@ public abstract class Search {
 			System.out.println("open is");
 			for (SearchNode nn : open) {
 				String nodestr = nn.toString();
-				// System.out.println(nodestr);
+				System.out.println(nodestr);
 			}
 
 			selectNode(strategy); // change from search1 - selectNode selects next node, given strategy

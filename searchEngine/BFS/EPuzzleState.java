@@ -25,7 +25,6 @@ public class EPuzzleState extends SearchState{
             }
         }
         return true;
-        // return currentState.equals(target);
     }
     
     @Override
@@ -88,13 +87,20 @@ public class EPuzzleState extends SearchState{
         return "Puzzle : " + out;
     }
 
+    private int[][] duplicatedArray(int[][] s) {
+        int[][] sCopy = new int[s.length][s[0].length];
+        for (int i = 0; i < s.length; i++) {
+            System.arraycopy(s[i], 0, sCopy[i], 0, s[i].length);
+        }
+        return sCopy;
+    }
+
     public int[] empty(int[][] c){
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 if (c[i][j] == 0) {
                     emptyXCoord = j;
                     emptyYCoord = i;
-                    // System.out.println("(" + emptyXCoord + " , " + emptyYCoord + ")");
                     return new int[] {emptyXCoord, emptyYCoord};
                 }
             }
@@ -103,67 +109,53 @@ public class EPuzzleState extends SearchState{
     }
 
     public EPuzzleState leftMove(int [][] s, int[] emptyOnes){
-        int [][] sCopy = new int[s.length][s[0].length];
         if (emptyOnes[0] == 2){
-            // System.out.println("rejected LEFT");
             return null;
         }
         else {
-            for(int i = 0; i < s.length; i++){
-                System.arraycopy(s[i], 0, sCopy[i] , 0,s[i].length);
-            }
-            int zero = sCopy[emptyOnes[1]][emptyOnes[0]];
-            sCopy[emptyOnes[1]][emptyOnes[0]] = sCopy[emptyOnes[1]][emptyOnes[0] + 1];
-            sCopy[emptyOnes[1]][emptyOnes[0]+1] = zero;
+            int[][] toReturn = duplicatedArray(s);
+            int zero = toReturn[emptyOnes[1]][emptyOnes[0]];
+            toReturn[emptyOnes[1]][emptyOnes[0]] = toReturn[emptyOnes[1]][emptyOnes[0] + 1];
+            toReturn[emptyOnes[1]][emptyOnes[0]+1] = zero;
+            return new EPuzzleState(toReturn);
         }
-        return new EPuzzleState(sCopy);
     }
 
     public EPuzzleState rightMove(int[][] s, int[] emptyOnes) {
-        int[][] sCopy = new int[s.length][s[0].length];
         if (emptyOnes[0] == 0) {
-            // System.out.println("rejected right move");
             return null;
         }
         else {
-            for (int i = 0; i < s.length; i++) {
-                System.arraycopy(s[i], 0, sCopy[i], 0, s[i].length);
-            }
-            int zero = sCopy[emptyOnes[1]] [emptyOnes[0]];
-            sCopy[emptyOnes[1]] [emptyOnes[0]] = sCopy[emptyOnes[1]] [emptyOnes[0] - 1];
-            sCopy[emptyOnes[1]] [emptyOnes[0] - 1] = zero;
+            int[][] toReturn = duplicatedArray(s);
+            int zero = toReturn[emptyOnes[1]] [emptyOnes[0]];
+            toReturn[emptyOnes[1]] [emptyOnes[0]] = toReturn[emptyOnes[1]] [emptyOnes[0] - 1];
+            toReturn[emptyOnes[1]] [emptyOnes[0] - 1] = zero;
+            return new EPuzzleState(toReturn);
         }
-        return new EPuzzleState(sCopy);
     }
+
     public EPuzzleState upMove(int[][] s, int[] emptyOnes) {
-        int[][] sCopy = new int[s.length][s[0].length];
         if (emptyOnes[1] == 2) {
-            // System.out.println("rejected up move");
             return null;
         }
         else {
-            for (int i = 0; i < s.length; i++) {
-                System.arraycopy(s[i], 0, sCopy[i], 0, s[i].length);
-            }
-            int zero = sCopy[emptyOnes[1]][emptyOnes[0]];
-            sCopy[emptyOnes[1]][emptyOnes[0]] = sCopy[emptyOnes[1]+1][emptyOnes[0]];
-            sCopy[emptyOnes[1]+1][emptyOnes[0]] = zero;
+            int[][] toReturn = duplicatedArray(s);
+            int zero = toReturn[emptyOnes[1]][emptyOnes[0]];
+            toReturn[emptyOnes[1]][emptyOnes[0]] = toReturn[emptyOnes[1] + 1][emptyOnes[0]];
+            toReturn[emptyOnes[1]+1][emptyOnes[0]] = zero;
+            return new EPuzzleState(toReturn);
         }
-        return new EPuzzleState(sCopy);
     }
+    
     public EPuzzleState downMove(int[][] s, int[] emptyOnes) {
-        int[][] sCopy = new int[s.length][s[0].length];
         if (emptyOnes[1] == 0) {
-            // System.out.println("rejected down move");
             return null;
         } else {
-            for (int i = 0; i < s.length; i++) {
-                System.arraycopy(s[i], 0, sCopy[i], 0, s[i].length);
-            }
-            int zero = sCopy[emptyOnes[1]][emptyOnes[0]];
-            sCopy[emptyOnes[1]][emptyOnes[0]] = sCopy[emptyOnes[1] - 1][emptyOnes[0]];
-            sCopy[emptyOnes[1] - 1][emptyOnes[0]] = zero;
+            int[][] toReturn = duplicatedArray(s);
+            int zero = toReturn[emptyOnes[1]][emptyOnes[0]];
+            toReturn[emptyOnes[1]][emptyOnes[0]] = toReturn[emptyOnes[1] - 1][emptyOnes[0]];
+            toReturn[emptyOnes[1] - 1][emptyOnes[0]] = zero;
+            return new EPuzzleState(toReturn);
         }
-        return new EPuzzleState(sCopy);
     }
 }

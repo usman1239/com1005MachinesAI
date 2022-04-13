@@ -1,5 +1,5 @@
 {
     "java.project.sourcePaths": [
-        "searchEngine/Astar"
+        // "searchEngine/BFS"
     ]
 }
