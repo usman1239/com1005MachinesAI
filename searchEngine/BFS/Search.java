@@ -41,16 +41,16 @@ public abstract class Search {
 		while (!open.isEmpty()) {
 
 			// print contents of open
-			System.out.println("iteration no " + iterationCount);
-			System.out.println("open is");
+			// System.out.println("iteration no " + iterationCount);
+			// System.out.println("open is");
 			for (SearchNode nn : open) {
 				String nodestr = nn.toString();
-				System.out.println(nodestr);
+				// System.out.println(nodestr);
 			}
 
 			selectNode(strategy); // change from search1 - selectNode selects next node, given strategy
 			// makes it currentNode & removes it from open
-			System.out.println("Current node " + currentNode.toString());
+			// System.out.println("Current node " + currentNode.toString());
 
 			if (currentNode.goalPredicate(this))
 				return reportSuccess(); // success

@@ -4,6 +4,10 @@ public class EPuzzleState extends SearchState{
     int emptyXCoord;
     int emptyYCoord;
 
+    /**
+     * constructor which has an array
+     * @param c
+     */
     public EPuzzleState(int [][] c){
         currentState = c;
     }
@@ -12,6 +16,12 @@ public class EPuzzleState extends SearchState{
         return currentState;
     }
 
+    /**
+     * Checks if we have reached the target configuration
+     * 
+     * @param searcher
+     * @return true if we have reached target, false if not
+     */
     @Override
     boolean goalPredicate(Search searcher) {
         EPuzzleSearch eSearch = (EPuzzleSearch) searcher;
@@ -27,32 +37,41 @@ public class EPuzzleState extends SearchState{
         return true;
     }
     
+    /**
+     * Calls other methods which return the possible states.
+     * Adds the states to a list and converts each to a SearchState
+     * 
+     * @param searcher
+     * @return list of SearchStates that are the possible moves -- slis
+     */
     @Override
     ArrayList<SearchState> getSuccessors(Search searcher) {        
         ArrayList<EPuzzleState> eslis = new ArrayList<>();
         ArrayList<SearchState> slis = new ArrayList<>();
         int[] emptyCoordinates = empty(currentState);
 
-        EPuzzleState afterLeftMove = leftMove(currentState, emptyCoordinates);
-        if (afterLeftMove != null){
-            eslis.add(afterLeftMove);
-        }
-
-        EPuzzleState afterRightMove = rightMove(currentState, emptyCoordinates);
-        if (afterRightMove != null){
-            eslis.add(afterRightMove);
-        }
-
-        EPuzzleState afterUpMove = upMove(currentState, emptyCoordinates);
-        if (afterUpMove != null) {
-            eslis.add(afterUpMove);
-        }
-
+        
+        
+        
         EPuzzleState afterDownMove = downMove(currentState, emptyCoordinates);
         if (afterDownMove != null) {
             eslis.add(afterDownMove);
         }
-
+        
+        EPuzzleState afterRightMove = rightMove(currentState, emptyCoordinates);
+        if (afterRightMove != null){
+            eslis.add(afterRightMove);
+        }
+        
+        EPuzzleState afterUpMove = upMove(currentState, emptyCoordinates);
+        if (afterUpMove != null) {
+            eslis.add(afterUpMove);
+        }
+        EPuzzleState afterLeftMove = leftMove(currentState, emptyCoordinates);
+        if (afterLeftMove != null){
+            eslis.add(afterLeftMove);
+        }
+        
         for (EPuzzleState p : eslis){
             if (p != null){
                 slis.add((SearchState) p);
@@ -61,6 +80,12 @@ public class EPuzzleState extends SearchState{
         return slis;
     }
 
+    /**
+     * Checks if the arrays have any difference, if so then returns false.
+     * 
+     * @param n2
+     * @return true if arrays are equal, false if not
+     */
     @Override
     boolean sameState(SearchState n2) {
         EPuzzleState es2 = (EPuzzleState) n2;
@@ -87,6 +112,12 @@ public class EPuzzleState extends SearchState{
         return "Puzzle : " + out;
     }
 
+    /**
+     * Provides a duplicate of the array passed into the method
+     * 
+     * @param s
+     * @return sCopy
+     */
     private int[][] duplicatedArray(int[][] s) {
         int[][] sCopy = new int[s.length][s[0].length];
         for (int i = 0; i < s.length; i++) {
@@ -95,6 +126,12 @@ public class EPuzzleState extends SearchState{
         return sCopy;
     }
 
+    /**
+     * Calculates coordinates of empty space
+     * 
+     * @param c
+     * @return array of coordinates
+     */
     public int[] empty(int[][] c){
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
@@ -107,54 +144,91 @@ public class EPuzzleState extends SearchState{
         }
         return null;
     }
-
-    public EPuzzleState leftMove(int [][] s, int[] emptyOnes){
-        if (emptyOnes[0] == 2){
+    
+    /**
+     * Checks if an element from right can be moved left into the space.
+     * If so, returns the state after that move has been made
+     * 
+     * @param s
+     * @param emptyOnes
+     * @return state after move
+     */
+    public EPuzzleState leftMove(int [][] s, int[] emptyCoordinates){
+        if (emptyCoordinates[0] == 2){
             return null;
         }
         else {
             int[][] toReturn = duplicatedArray(s);
-            int zero = toReturn[emptyOnes[1]][emptyOnes[0]];
-            toReturn[emptyOnes[1]][emptyOnes[0]] = toReturn[emptyOnes[1]][emptyOnes[0] + 1];
-            toReturn[emptyOnes[1]][emptyOnes[0]+1] = zero;
+            int zero = toReturn[emptyCoordinates[1]][emptyCoordinates[0]];
+            toReturn[emptyCoordinates[1]][emptyCoordinates[0]] = toReturn[emptyCoordinates[1]][emptyCoordinates[0] + 1];
+            toReturn[emptyCoordinates[1]][emptyCoordinates[0]+1] = zero;
             return new EPuzzleState(toReturn);
         }
     }
 
-    public EPuzzleState rightMove(int[][] s, int[] emptyOnes) {
-        if (emptyOnes[0] == 0) {
+
+    /**
+     * Checks if an element from left can be moved right into the space.
+     * If so, returns the state after that move has been made
+     * 
+     * @param s
+     * @param emptyOnes
+     * @return state after move
+     */
+    public EPuzzleState rightMove(int[][] s, int[] emptyCoordinates) {
+        //first checks whether a number can be moved to the right into the empty space
+        //if not, returns null
+        if (emptyCoordinates[0] == 0) {
             return null;
         }
         else {
+            //returns a copy of the current array puzzle
             int[][] toReturn = duplicatedArray(s);
-            int zero = toReturn[emptyOnes[1]] [emptyOnes[0]];
-            toReturn[emptyOnes[1]] [emptyOnes[0]] = toReturn[emptyOnes[1]] [emptyOnes[0] - 1];
-            toReturn[emptyOnes[1]] [emptyOnes[0] - 1] = zero;
+            //'moves' the number right, into the empty slot
+            int zero = toReturn[emptyCoordinates[1]] [emptyCoordinates[0]];
+            toReturn[emptyCoordinates[1]] [emptyCoordinates[0]] = toReturn[emptyCoordinates[1]] [emptyCoordinates[0] - 1];
+            toReturn[emptyCoordinates[1]] [emptyCoordinates[0] - 1] = zero;
             return new EPuzzleState(toReturn);
         }
     }
 
-    public EPuzzleState upMove(int[][] s, int[] emptyOnes) {
-        if (emptyOnes[1] == 2) {
+    /**
+     * Checks if an element from below can be moved up into the space.
+     * If so, returns the state after that move has been made
+     * 
+     * @param s
+     * @param emptyOnes
+     * @return state after move
+     */
+    public EPuzzleState upMove(int[][] s, int[] emptyCoordinates) {
+        if (emptyCoordinates[1] == 2) {
             return null;
         }
         else {
             int[][] toReturn = duplicatedArray(s);
-            int zero = toReturn[emptyOnes[1]][emptyOnes[0]];
-            toReturn[emptyOnes[1]][emptyOnes[0]] = toReturn[emptyOnes[1] + 1][emptyOnes[0]];
-            toReturn[emptyOnes[1]+1][emptyOnes[0]] = zero;
+            int zero = toReturn[emptyCoordinates[1]][emptyCoordinates[0]];
+            toReturn[emptyCoordinates[1]][emptyCoordinates[0]] = toReturn[emptyCoordinates[1] + 1][emptyCoordinates[0]];
+            toReturn[emptyCoordinates[1]+1][emptyCoordinates[0]] = zero;
             return new EPuzzleState(toReturn);
         }
     }
     
-    public EPuzzleState downMove(int[][] s, int[] emptyOnes) {
-        if (emptyOnes[1] == 0) {
+    /**
+     * Checks if an element from above can be moved down into the space.
+     * If so, returns the state after that move has been made
+     * 
+     * @param s
+     * @param emptyOnes
+     * @return state after move
+     */
+    public EPuzzleState downMove(int[][] s, int[] emptyCoordinates) {
+        if (emptyCoordinates[1] == 0) {
             return null;
         } else {
             int[][] toReturn = duplicatedArray(s);
-            int zero = toReturn[emptyOnes[1]][emptyOnes[0]];
-            toReturn[emptyOnes[1]][emptyOnes[0]] = toReturn[emptyOnes[1] - 1][emptyOnes[0]];
-            toReturn[emptyOnes[1] - 1][emptyOnes[0]] = zero;
+            int zero = toReturn[emptyCoordinates[1]][emptyCoordinates[0]];
+            toReturn[emptyCoordinates[1]][emptyCoordinates[0]] = toReturn[emptyCoordinates[1] - 1][emptyCoordinates[0]];
+            toReturn[emptyCoordinates[1] - 1][emptyCoordinates[0]] = zero;
             return new EPuzzleState(toReturn);
         }
     }

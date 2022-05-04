@@ -4,7 +4,12 @@ public class EPuzzleStateAStar extends SearchState{
     int emptyXCoord;
     int emptyYCoord;
     int[][] target;
-
+    /**
+     * constructor which has an array, local cost and estimated cost
+     * @param c
+     * @param lc
+     * @param erc
+     */
     public EPuzzleStateAStar(int[][] c, int lc, int erc){
         currentState = c;
         localCost = lc;
@@ -15,10 +20,15 @@ public class EPuzzleStateAStar extends SearchState{
         return currentState;
     }
 
+    /**
+     * Checks if we have reached the target configuration
+     * @param searcher
+     * @return true if we have reached target, false if not
+     */
     @Override
     boolean goalPredicate(Search searcher) {
-        EPuzzleSearchAStar bob = (EPuzzleSearchAStar) searcher;
-        int[][] tar = bob.getTarget();
+        EPuzzleSearchAStar esearcher = (EPuzzleSearchAStar) searcher;
+        int[][] tar = esearcher.getTarget();
         for(int x = 0; x < tar.length; x++){
             for(int y = 0; y < tar[x].length; y++){
                 if (tar[x][y] != currentState[x][y]){
@@ -29,6 +39,12 @@ public class EPuzzleStateAStar extends SearchState{
         return true;
     }
 
+    /**
+     * Calls other methods which return the possible states.
+     * Adds the states to a list and converts each to a SearchState
+     * @param searcher
+     * @return list of SearchStates that are the possible moves -- slis
+     */
     @Override
     ArrayList<SearchState> getSuccessors(Search searcher) {
         EPuzzleSearchAStar esearcher = (EPuzzleSearchAStar) searcher;
@@ -65,6 +81,11 @@ public class EPuzzleStateAStar extends SearchState{
         return slis;
     }
 
+    /**
+     * Checks if the arrays have any difference, if so then returns false.
+     * @param n2
+     * @return true if arrays are equal, false if not
+     */
     @Override
     boolean sameState(SearchState n2) {
         EPuzzleStateAStar s = (EPuzzleStateAStar) n2;
@@ -89,6 +110,11 @@ public class EPuzzleStateAStar extends SearchState{
         return "Puzzle : " + out;
     }
     
+    /**
+     * Provides a duplicate of the array passed into the method
+     * @param s
+     * @return sCopy
+     */
     private int[][] duplicatedArray(int[][] s){
         int[][] sCopy = new int[s.length][s[0].length];
         for (int i = 0; i < s.length; i++) {
@@ -97,6 +123,11 @@ public class EPuzzleStateAStar extends SearchState{
         return sCopy;
     }
     
+    /**
+     * Calculates coordinates of empty space
+     * @param c
+     * @return array of coordinates
+     */
     private int[] empty(int[][] c) {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
@@ -110,6 +141,14 @@ public class EPuzzleStateAStar extends SearchState{
         return null;
     }
 
+    /**
+     * Checks if an element from right can be moved left into the space.
+     * If so, returns the state after that move has been made
+     * 
+     * @param s
+     * @param emptyOnes
+     * @return state after move
+     */
     private EPuzzleStateAStar leftMove(int[][] s, int[] emptyOnes) {
         if (emptyOnes[0] == 2) {
             return null;
@@ -118,14 +157,21 @@ public class EPuzzleStateAStar extends SearchState{
             int zero = toReturn[emptyOnes[1]][emptyOnes[0]];
             toReturn[emptyOnes[1]][emptyOnes[0]] = toReturn[emptyOnes[1]][emptyOnes[0] + 1];
             toReturn[emptyOnes[1]][emptyOnes[0] + 1] = zero;
-            // estRemCost = hamming(toReturn, target);
-            estRemCost = manhattan(toReturn, target);
-            System.out.println("benz" + estRemCost);
+            estRemCost = hamming(toReturn, target);
+            // estRemCost = manhattan(toReturn, target);
             return new EPuzzleStateAStar(toReturn, 1, estRemCost);
         }
         
     }
 
+    /**
+     * Checks if an element from left can be moved right into the space.
+     * If so, returns the state after that move has been made
+     * 
+     * @param s
+     * @param emptyOnes
+     * @return state after move
+     */
     private EPuzzleStateAStar rightMove(int[][] s, int[] emptyOnes) {
         if (emptyOnes[0] == 0) {
             return null;
@@ -134,13 +180,20 @@ public class EPuzzleStateAStar extends SearchState{
             int zero = toReturn[emptyOnes[1]][emptyOnes[0]];
             toReturn[emptyOnes[1]][emptyOnes[0]] = toReturn[emptyOnes[1]][emptyOnes[0] - 1];
             toReturn[emptyOnes[1]][emptyOnes[0] - 1] = zero;
-            // estRemCost = hamming(toReturn, target);
-            estRemCost = manhattan(toReturn, target);
-            System.out.println("benz" + estRemCost);
+            estRemCost = hamming(toReturn, target);
+            // estRemCost = manhattan(toReturn, target);
             return new EPuzzleStateAStar(toReturn, 1, estRemCost);
         }
     }
 
+    /**
+     * Checks if an element from below can be moved up into the space.
+     * If so, returns the state after that move has been made
+     * 
+     * @param s
+     * @param emptyOnes
+     * @return state after move
+     */
     private EPuzzleStateAStar upMove(int[][] s, int[] emptyOnes) {
         if (emptyOnes[1] == 2) {
             return null;
@@ -149,13 +202,20 @@ public class EPuzzleStateAStar extends SearchState{
             int zero = toReturn[emptyOnes[1]][emptyOnes[0]];
             toReturn[emptyOnes[1]][emptyOnes[0]] = toReturn[emptyOnes[1] + 1][emptyOnes[0]];
             toReturn[emptyOnes[1] + 1][emptyOnes[0]] = zero;
-            // estRemCost = hamming(toReturn, target);
-            estRemCost = manhattan(toReturn, target);
-            System.out.println("benz" + estRemCost);
+            estRemCost = hamming(toReturn, target);
+            // estRemCost = manhattan(toReturn, target);
             return new EPuzzleStateAStar(toReturn, 1, estRemCost);
         }
     }
 
+    /**
+     * Checks if an element from above can be moved down into the space.
+     * If so, returns the state after that move has been made
+     * 
+     * @param s
+     * @param emptyOnes
+     * @return state after move
+     */
     private EPuzzleStateAStar downMove(int[][] s, int[] emptyOnes) {
         if (emptyOnes[1] == 0) {
             return null;
@@ -164,20 +224,24 @@ public class EPuzzleStateAStar extends SearchState{
             int zero = toReturn[emptyOnes[1]][emptyOnes[0]];
             toReturn[emptyOnes[1]][emptyOnes[0]] = toReturn[emptyOnes[1] - 1][emptyOnes[0]];
             toReturn[emptyOnes[1] - 1][emptyOnes[0]] = zero;
-            // estRemCost = hamming(toReturn, target);
-            estRemCost = manhattan(toReturn, target);
-            System.out.println("benz" + estRemCost);
+            estRemCost = hamming(toReturn, target);
+            // estRemCost = manhattan(toReturn, target);
             return new EPuzzleStateAStar(toReturn, 1, estRemCost);
         }
     }
 
+    /**
+     * Uses the current array and target array to calculate number of elements
+     * out of place, stored in an int variable
+     * @param src
+     * @param t
+     * @return numOutOfPlace
+     */
     private int hamming(int[][] src, int[][] t) {
         int numOutOfPlace = 0;
-        printNice(src);
         for (int x = 0; x < src.length; x++) {
             for (int y = 0; y < src[x].length; y++) {
                 if (src[x][y] != t[x][y] && src[x][y]!=0) {
-                    System.out.println(src[x][y] + " is out of place");
                     numOutOfPlace++;
                 }
             }
@@ -185,29 +249,32 @@ public class EPuzzleStateAStar extends SearchState{
         return numOutOfPlace;
     }
 
+    /**
+     * Calculates the absolute distance each element has to move to get to its correct
+     * position in the array. Calculates using current state and target state.
+     * @param s
+     * @param t
+     * @return sum of distance -- totalManhattan
+     */
     private int manhattan(int[][] s, int[][] t) {
-        printNice(s);
         int totalManhattan = 0;
         int si = 0;
         int sj = 0;
         int ti = 0;
         int tj = 0;
 
+        //exclude the empty space
         for (int x = 1; x < 9 ; x++) {
             int i;
             int j;
             for (i = 0; i < 3; i++) {
                 for (j = 0; j < 3; j++) {
                     if (s[i][j] == x) {
-                        System.out.println("x : " + s[i][j]);
                         si = i;
                         sj = j;
-                        System.out.println("si: " + si);
-                        System.out.println("sJJ: " + sj);
                     }
                 }
             }
-
             for (i = 0; i < 3; i++) {
                 for (j = 0; j < 3;j++) {
                     if (t[i][j] == x) {
@@ -219,14 +286,5 @@ public class EPuzzleStateAStar extends SearchState{
             }
         }
         return totalManhattan;
-    }
-
-    private void printNice(int[][] z) {
-        for (int x = 0; x < z.length; x++) {
-            for (int y = 0; y < z[x].length; y++) {
-                System.out.print(z[x][y] + " | ");
-            }
-            System.out.println();
-        }
     }
 }

@@ -1,5 +1,4 @@
 public class EPuzzleSearchAStar extends Search {
-    // EpuzzGen generatedPuzz = new EpuzzGen();
     int[][] generatedPuzz;
     int[][] target;
     
@@ -8,10 +7,16 @@ public class EPuzzleSearchAStar extends Search {
         target = t;
     }
 
+    /**
+     * @return the initial puzzle
+     */
     public int[][] getPuzz(){
-
         return generatedPuzz;
     }
+    
+    /**
+     * @return the target puzzle
+     */
     public int[][] getTarget(){
         return target;
     }
