@@ -2,7 +2,7 @@ import java.util.Arrays;
 
 public class RunEPuzzleBFS {
     public static void main(String[] args) {
-        
+        int[][] target = new int[][] {{1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 0 }};
         int[][] puzz = new int[][]{{3,8,2} ,{7,5,6}, {4,1,0}};
         int[][] initP1 = new int[][]{{1,0,3},{4,2,6},{7,5,8}};
         int[][] initP2 = new int[][]{{4,1,3},{7,2,5},{0,8,6}};
