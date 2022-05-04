@@ -23,7 +23,7 @@ public class RunEPuzzleAStar {
             String res_aStarString = searcherPuzz.runSearch(state1, "A*");
             Float res_aStarEff = searcherPuzz.runSearchE(state1, "A*");
             System.out.println("Solution Path: " + res_aStarString);
-            System.out.println("Eff: " + res_aStar);
+            System.out.println("Eff: " + res_aStarEff);
         }
     }
 }
